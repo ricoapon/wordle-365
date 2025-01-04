@@ -5,12 +5,19 @@ import {WordleSingleDay} from "./wordle-single-day";
   providedIn: 'root'
 })
 export class StorageService {
+  // If we ever need to change the storage service and migrate, then it is useful to know the version.
+  // So we store a version right now.
+  private readonly KEY_VERSION = "VERSION";
+  private readonly VERSION = "0.0.1"
+
   // We store everything in a single value under this key.
-  private readonly key = "WORDLE";
+  private readonly KEY_DATA = "WORDLE";
   private readonly data: WordleSingleDay[];
 
   constructor() {
-    const value = localStorage.getItem(this.key);
+    localStorage.setItem(this.KEY_VERSION, this.VERSION);
+
+    const value = localStorage.getItem(this.KEY_DATA);
     if (value == null) {
       this.data = [];
     } else {
@@ -47,6 +54,6 @@ export class StorageService {
   }
 
   private save() {
-    localStorage.setItem(this.key, JSON.stringify(this.data));
+    localStorage.setItem(this.KEY_DATA, JSON.stringify(this.data));
   }
 }
