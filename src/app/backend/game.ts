@@ -1,5 +1,7 @@
 import {LetterState} from "../wordle/letter-state";
 import {ALL_EXISTING_WORDS} from "./words/all-existing-words";
+import {WordleSingleDay} from "./wordle-single-day";
+import {StorageService} from "./storage-service";
 
 const MAX_NR_OF_GUESSES = 6
 const WORD_LENGTH = 5
@@ -19,9 +21,14 @@ export class Game {
   private incorrectLetters: Set<String> = new Set()
   private correctLetters: Set<String> = new Set()
   private almostCorrectLetters: Set<String> = new Set()
+  // We keep an instance of the StorageService, so that we automatically update the values after guessing a word.
+  private wordleSingleDay: WordleSingleDay
+  private storageService: StorageService
 
-  constructor(answer: String) {
-    this.answer = answer
+  constructor(wordleSingleDay: WordleSingleDay, storageService: StorageService) {
+    this.answer = wordleSingleDay.answer
+    this.wordleSingleDay = wordleSingleDay
+    this.storageService = storageService
 
     this.guessedWords = []
     for (let i = 0; i < MAX_NR_OF_GUESSES; i++) {
@@ -119,6 +126,11 @@ export class Game {
         isCorrect = false
       }
     }
+
+    // Update the storage.
+    const guessedWordAsString = guessedLetters.map(l => l.content).join()
+    this.wordleSingleDay.guessedWords.push(guessedWordAsString)
+    this.storageService.addOrOverwrite(this.wordleSingleDay)
 
     if (isCorrect) {
       // Delay the page switch to have the letters light green first.

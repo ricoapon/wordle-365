@@ -4,6 +4,7 @@ import {KeyboardComponent} from "./keyboard/keyboard.component";
 import {WordComponent} from "./word/word.component";
 import {NgForOf} from "@angular/common";
 import {Game} from "../backend/game";
+import {StorageService} from "../backend/storage-service";
 
 @Component({
   selector: 'app-wordle',
@@ -19,16 +20,31 @@ import {Game} from "../backend/game";
 })
 export class WordleComponent implements OnInit {
   protected date: Date | undefined;
-  // TODO: eventually remove this implemented value with a dynamic value.
-  protected game: Game = new Game("hallo");
+  protected game: Game;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private storageService: StorageService) {
+  }
 
   ngOnInit() {
     const dateParam = this.route.snapshot.queryParams['date'];
     if (dateParam) {
       this.date = new Date(dateParam);
+    } else {
+      this.date = new Date();
     }
+
+    let wordleSingleDay = this.storageService.getForDate(this.date);
+    if (wordleSingleDay == undefined) {
+      // TODO: generate dynamically!
+      wordleSingleDay = {
+        date: this.date,
+        answer: "hallo",
+        guessedWords: [],
+      }
+      this.storageService.addOrOverwrite(wordleSingleDay);
+    }
+
+    this.game = new Game(wordleSingleDay, this.storageService);
   }
 
   pressKey(value: String) {
