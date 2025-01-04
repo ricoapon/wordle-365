@@ -1,5 +1,5 @@
-<p>wordle works!</p>
-<p>Date: {{ date }}</p>
-<a routerLink="/">Home</a>
+<div class="centered-container">
+  <app-word *ngFor="let word of guessedWords" [word]="word"></app-word>
 
-<app-keyboard></app-keyboard>
+  <app-keyboard class="pt-3"></app-keyboard>
+</div>
