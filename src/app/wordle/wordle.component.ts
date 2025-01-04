@@ -1,11 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from "@angular/router";
+import {KeyboardComponent} from "./keyboard/keyboard.component";
 
 @Component({
   selector: 'app-wordle',
   standalone: true,
   imports: [
-    RouterLink
+    RouterLink,
+    KeyboardComponent
   ],
   templateUrl: './wordle.component.html',
   styleUrl: './wordle.component.css'
