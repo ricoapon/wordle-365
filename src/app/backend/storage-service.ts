@@ -50,7 +50,8 @@ export class StorageService {
   }
 
   public getAll(): WordleSingleDay[] {
-    return this.data;
+    // Return a copy, because we don't want other objects to modify this.
+    return this.data.slice();
   }
 
   private save() {
