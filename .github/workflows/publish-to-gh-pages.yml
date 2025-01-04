@@ -4,20 +4,39 @@ on:
     branches:
       - master
       - main
+
 jobs:
-  build-and-publish:
+  # Build job
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.2
-
-      - name: Install and Build
+        uses: actions/checkout@v4
+      - name: Install NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+      - name: Build
         run: |
           npm ci
           npm run build:github-pages
-
-      - name: Publish
-        uses: JamesIves/github-pages-deploy-action@v4.7.2
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          branch: gh-pages
-          folder: dist/wordle-365
+          path: dist/
+
+  deploy-to-gh-pages:
+    needs: build
+    runs-on: ubuntu-latest
+    if: success()
+    # Required permissions for upload-pages-artifact.
+    permissions:
+      pages: write
+      id-token: write
+    # Deploy to the github-pages environment.
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish
+        uses: actions/deploy-pages@v4
