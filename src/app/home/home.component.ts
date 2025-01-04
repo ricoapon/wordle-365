@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {RouterLink} from "@angular/router";
 import {NgForOf} from "@angular/common";
+import {StorageService} from "../backend/storage-service";
 
 @Component({
   selector: 'app-home',
@@ -13,6 +14,11 @@ import {NgForOf} from "@angular/common";
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
+
+  constructor(storageService: StorageService) {
+    console.log(storageService.get());
+  }
+
   public yesterday(): String {
     const date = new Date();
     date.setDate(date.getDate() - 1);
