@@ -89,7 +89,9 @@ export class Game {
     }
 
     let guessedWord = this.guessedWords[this.currentGuessingWord].map(l => l.content).join("")
-    if (!ALL_EXISTING_WORDS.includes(guessedWord)) {
+    // When we initialize the game, we reply existing games. If we ever change the dictionary, it can happen that words
+    // that were guessed before do not exist anymore. To avoid any issues, we just allow that.
+    if (!ALL_EXISTING_WORDS.includes(guessedWord) && commitToStorage) {
       alert('This word does not exist')
       return
     }
