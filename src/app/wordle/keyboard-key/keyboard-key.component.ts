@@ -16,7 +16,7 @@ export class KeyboardKeyComponent {
   determineCssClass(): String {
     switch(this.letterState) {
       case LetterState.ALMOST_CORRECT:
-        return 'incorrect';
+        return 'almost-correct';
       case LetterState.CORRECT:
         return 'correct';
       case LetterState.INCORRECT:
