@@ -16,7 +16,7 @@ import {StorageService} from "../backend/storage-service";
 export class HomeComponent {
 
   constructor(storageService: StorageService) {
-    console.log(storageService.get());
+    console.log(storageService.getAll());
   }
 
   public yesterday(): String {
