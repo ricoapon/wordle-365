@@ -3,6 +3,7 @@ import {ActivatedRoute, RouterLink} from "@angular/router";
 import {KeyboardComponent} from "./keyboard/keyboard.component";
 import {WordComponent} from "./word/word.component";
 import {NgForOf} from "@angular/common";
+import {Game} from "../backend/game";
 
 @Component({
   selector: 'app-wordle',
@@ -19,8 +20,7 @@ import {NgForOf} from "@angular/common";
 export class WordleComponent implements OnInit {
   protected date: Date | undefined;
   // TODO: eventually remove this implemented value with a dynamic value.
-  protected answer: String = "hallo";
-  protected guessedWords: String[] = ['error', 'bezig', 'aa', '', '', '']
+  protected game: Game = new Game("hallo");
 
   constructor(private route: ActivatedRoute) {}
 
@@ -31,7 +31,16 @@ export class WordleComponent implements OnInit {
     }
   }
 
-  print(value: String) {
-    console.log(value);
+  pressKey(value: String) {
+    if (value == "Enter") {
+      this.game.finalizeGuess();
+      return;
+    }
+    if (value == "Del") {
+      this.game.deleteLastLetter();
+      return;
+    }
+
+    this.game.addLetter(value);
   }
 }

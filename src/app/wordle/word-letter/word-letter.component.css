@@ -11,3 +11,16 @@ div {
   align-items: center;
   text-transform: uppercase;
 }
+
+.correct {
+  background-color: #538d4e;
+  border-color: #538d4e;
+}
+.almost-correct {
+  background-color: #b59f3b;
+  border-color: #b59f3b;
+}
+.incorrect {
+  background-color: #3a3a3c;
+  border-color: #3a3a3c;
+}
