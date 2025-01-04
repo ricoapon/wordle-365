@@ -80,7 +80,7 @@ export class Game {
   }
 
   _arrayFrom0ToExcludingNWithout(n: number, withoutArray: number[]) {
-    return [...Array(n - 1).keys()].filter((el) => !withoutArray.includes(el))
+    return [...Array(n).keys()].filter((el) => !withoutArray.includes(el))
   }
 
   public finalizeGuess(commitToStorage: boolean = true) {
@@ -104,6 +104,7 @@ export class Game {
     // And this should be generalized (e.g. if the letter occurs X times in the answer).
     for (let letter of new Set(this.answer.split(""))) {
       let correctIndices: number[] = this._getAllIndicesOfOccurrence(this.answer, letter)
+      console.log('Letter ' + letter + ' has correct indices ' + correctIndices)
       let nrOfStatesToSet = correctIndices.length
       for (let index of correctIndices) {
         if (guessedLetters[index].content === letter) {
@@ -114,6 +115,7 @@ export class Game {
       }
       // Loop over all indices that are not correct.
       for (let index of this._arrayFrom0ToExcludingNWithout(WORD_LENGTH, correctIndices)) {
+        console.log('Checking index ' + index)
         if (nrOfStatesToSet === 0) {
           break;
         }
