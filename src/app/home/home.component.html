@@ -1,4 +1,6 @@
-<p>home works!</p>
-<a routerLink="wordle">Wordle today</a>
-<br/>
-<a routerLink="wordle" [queryParams]="{date: yesterday()}">Wordle yesterday</a>
+<div class="container text-center">
+  <a routerLink="wordle" class="btn btn-success w-100 mb-2">Nieuw!</a>
+  <a routerLink="wordle" [queryParams]="{date: '2024-01-05'}" class="btn btn-light w-100 mb-2">2024-01-05: Balen</a>
+  <a routerLink="wordle" [queryParams]="{date: '2024-01-04'}" class="btn btn-light w-100 mb-2">2024-01-04: Ruzie</a>
+  <a routerLink="wordle" [queryParams]="{date: '2024-01-03'}" class="btn btn-light w-100 mb-2">2024-01-03: Leven</a>
+</div>
