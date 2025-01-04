@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RouterLink, RouterOutlet} from '@angular/router';
+import {VERSION} from "../version";
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,10 @@ import {RouterLink, RouterOutlet} from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'wordle-365';
+
+  ngOnInit(): void {
+    console.log(VERSION)
+  }
 }
