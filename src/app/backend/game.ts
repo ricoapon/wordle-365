@@ -22,7 +22,7 @@ export class Game {
   private correctLetters: Set<String> = new Set()
   private almostCorrectLetters: Set<String> = new Set()
   // We keep an instance of the StorageService, so that we automatically update the values after guessing a word.
-  private wordleSingleDay: WordleSingleDay
+  private readonly wordleSingleDay: WordleSingleDay
   private storageService: StorageService
 
   constructor(wordleSingleDay: WordleSingleDay, storageService: StorageService) {
@@ -40,6 +40,14 @@ export class Game {
         })
       }
       this.guessedWords.push(guessedLetters)
+    }
+
+    // We already have words that are guessed. So we need to implement those. We do this by running through the game.
+    for (let word of wordleSingleDay.guessedWords) {
+      for (let letter of word.split('')) {
+        this.addLetter(letter);
+      }
+      this.finalizeGuess(false);
     }
   }
 
@@ -75,7 +83,7 @@ export class Game {
     return [...Array(n - 1).keys()].filter((el) => !withoutArray.includes(el))
   }
 
-  finalizeGuess() {
+  public finalizeGuess(commitToStorage: boolean = true) {
     if (this.currentGuessingLetter < WORD_LENGTH) {
       return
     }
@@ -127,10 +135,11 @@ export class Game {
       }
     }
 
-    // Update the storage.
-    const guessedWordAsString = guessedLetters.map(l => l.content).join()
-    this.wordleSingleDay.guessedWords.push(guessedWordAsString)
-    this.storageService.addOrOverwrite(this.wordleSingleDay)
+    if (commitToStorage) {
+      const guessedWordAsString = guessedLetters.map(l => l.content).join('')
+      this.wordleSingleDay.guessedWords.push(guessedWordAsString)
+      this.storageService.addOrOverwrite(this.wordleSingleDay)
+    }
 
     if (isCorrect) {
       // Delay the page switch to have the letters light green first.

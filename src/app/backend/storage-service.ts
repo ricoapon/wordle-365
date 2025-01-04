@@ -18,7 +18,7 @@ export class StorageService {
     }
   }
 
-  public getForDate(date: Date): WordleSingleDay | undefined {
+  public getForDate(date: String): WordleSingleDay | undefined {
     const matching = this.data.filter(w => w.date == date);
 
     if (matching.length == 0) {

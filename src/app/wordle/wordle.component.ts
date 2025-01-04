@@ -5,6 +5,7 @@ import {WordComponent} from "./word/word.component";
 import {NgForOf} from "@angular/common";
 import {Game} from "../backend/game";
 import {StorageService} from "../backend/storage-service";
+import {DateUtilService} from "../backend/date-util-service";
 
 @Component({
   selector: 'app-wordle',
@@ -19,18 +20,18 @@ import {StorageService} from "../backend/storage-service";
   styleUrl: './wordle.component.css'
 })
 export class WordleComponent implements OnInit {
-  protected date: Date | undefined;
+  protected date: String;
   protected game: Game;
 
-  constructor(private route: ActivatedRoute, private storageService: StorageService) {
+  constructor(private route: ActivatedRoute, private storageService: StorageService, private dateUtilService: DateUtilService) {
   }
 
   ngOnInit() {
     const dateParam = this.route.snapshot.queryParams['date'];
     if (dateParam) {
-      this.date = new Date(dateParam);
+      this.date = dateParam;
     } else {
-      this.date = new Date();
+      this.date = this.dateUtilService.convertDateToIsoFormatString(new Date());
     }
 
     let wordleSingleDay = this.storageService.getForDate(this.date);
