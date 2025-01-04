@@ -30,4 +30,8 @@ export class WordleComponent implements OnInit {
       this.date = new Date(dateParam);
     }
   }
+
+  print(value: String) {
+    console.log(value);
+  }
 }

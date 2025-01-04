@@ -1,5 +1,5 @@
 <div class="centered-container">
   <app-word *ngFor="let word of guessedWords" [word]="word"></app-word>
 
-  <app-keyboard class="pt-3"></app-keyboard>
+  <app-keyboard class="pt-3" (pressedKey)="print($event)"></app-keyboard>
 </div>

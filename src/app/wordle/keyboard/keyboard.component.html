@@ -1,13 +1,16 @@
 <div class="text-center">
   <div class="pb-1">
-    <app-keyboard-key *ngFor="let c of 'qwertyuiop'.split('')" [key]="c"></app-keyboard-key>
+    <app-keyboard-key *ngFor="let c of 'qwertyuiop'.split('')"
+                      (pressed)="pressedKey.emit($event)" [key]="c"></app-keyboard-key>
   </div>
   <div class="pb-1">
-    <app-keyboard-key *ngFor="let c of 'asdfghjkl'.split('')" [key]="c"></app-keyboard-key>
+    <app-keyboard-key *ngFor="let c of 'asdfghjkl'.split('')"
+                      (pressed)="pressedKey.emit($event)"  [key]="c"></app-keyboard-key>
   </div>
   <div class="pb-1">
-    <app-keyboard-key [key]="'Enter'"></app-keyboard-key>
-    <app-keyboard-key *ngFor="let c of 'zxcvbnm'.split('')" [key]="c"></app-keyboard-key>
-    <app-keyboard-key [key]="'Del'"></app-keyboard-key>
+    <app-keyboard-key (pressed)="pressedKey.emit($event)" [key]="'Enter'"></app-keyboard-key>
+    <app-keyboard-key *ngFor="let c of 'zxcvbnm'.split('')"
+                      (pressed)="pressedKey.emit($event)" [key]="c"></app-keyboard-key>
+    <app-keyboard-key (pressed)="pressedKey.emit($event)" [key]="'Del'"></app-keyboard-key>
   </div>
 </div>

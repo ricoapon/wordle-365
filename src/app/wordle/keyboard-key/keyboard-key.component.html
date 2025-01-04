@@ -1,1 +1,1 @@
-<button [class]="determineCssClass()">{{ key }}</button>
+<button [class]="determineCssClass()" (click)="pressed.emit(key)">{{ key }}</button>

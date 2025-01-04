@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {LetterState} from "../letter-state";
 
 @Component({
@@ -11,6 +11,7 @@ import {LetterState} from "../letter-state";
 export class KeyboardKeyComponent {
   @Input() key: String;
   @Input() letterState: LetterState;
+  @Output() pressed: EventEmitter<String> = new EventEmitter();
 
   determineCssClass(): String {
     switch(this.letterState) {
