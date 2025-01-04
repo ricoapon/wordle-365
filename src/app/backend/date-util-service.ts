@@ -10,10 +10,14 @@ export class DateUtilService {
   }
 
   convertDateToIsoFormatString(date: Date): string {
-    const result = this.datePipe.transform(date, 'yyyy-MM-dd');
+    const result = this.datePipe.transform(date, 'yyyy-MM-dd')
     if (result == null) {
-      throw new Error('Error converting date to iso format: ' + date);
+      throw new Error('Error converting date to iso format: ' + date)
     }
-    return result;
+    return result
+  }
+
+  today(): string {
+    return this.convertDateToIsoFormatString(new Date())
   }
 }
