@@ -84,7 +84,7 @@ export class Game {
   }
 
   public finalizeGuess(commitToStorage: boolean = true) {
-    if (this.currentGuessingLetter < WORD_LENGTH) {
+    if (this.currentGuessingLetter < WORD_LENGTH || this.currentGuessingWord === MAX_NR_OF_GUESSES) {
       return
     }
 
@@ -168,5 +168,9 @@ export class Game {
       return LetterState.INCORRECT
     }
     return LetterState.UNKNOWN
+  }
+
+  isStillPlaying() {
+    return this.currentGuessingWord < MAX_NR_OF_GUESSES
   }
 }
