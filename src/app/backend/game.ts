@@ -2,6 +2,7 @@ import {LetterState} from "../wordle/letter-state";
 import {ALL_EXISTING_WORDS} from "./words/all-existing-words";
 import {WordleSingleDay} from "./wordle-single-day";
 import {StorageService} from "./storage-service";
+import {EventEmitter} from "@angular/core";
 
 const MAX_NR_OF_GUESSES = 6
 const WORD_LENGTH = 5
@@ -24,6 +25,7 @@ export class Game {
   // We keep an instance of the StorageService, so that we automatically update the values after guessing a word.
   private readonly wordleSingleDay: WordleSingleDay
   private storageService: StorageService
+  public errorMessage: EventEmitter<String> = new EventEmitter();
 
   constructor(wordleSingleDay: WordleSingleDay, storageService: StorageService) {
     this.answer = wordleSingleDay.answer
@@ -92,7 +94,7 @@ export class Game {
     // When we initialize the game, we reply existing games. If we ever change the dictionary, it can happen that words
     // that were guessed before do not exist anymore. To avoid any issues, we just allow that.
     if (!ALL_EXISTING_WORDS.includes(guessedWord) && commitToStorage) {
-      alert('This word does not exist')
+      this.errorMessage.emit('Het woord "' + guessedWord + '" bestaat niet.')
       return
     }
 
@@ -138,8 +140,7 @@ export class Game {
     }
 
     if (commitToStorage) {
-      const guessedWordAsString = guessedLetters.map(l => l.content).join('')
-      this.wordleSingleDay.guessedWords.push(guessedWordAsString)
+      this.wordleSingleDay.guessedWords.push(guessedWord)
       this.storageService.addOrOverwrite(this.wordleSingleDay)
     }
 
@@ -155,7 +156,8 @@ export class Game {
     this.currentGuessingLetter = 0
 
     if (this.currentGuessingWord === MAX_NR_OF_GUESSES) {
-      alert('You ran out of guesses. Try again tomorrow!')
+      this.errorMessage.emit('Helaas, je hebt het woord niet geraden! Probeer het morgen nog een keer.')
+      return
     }
   }
 

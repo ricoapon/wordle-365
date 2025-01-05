@@ -7,6 +7,7 @@ import {Game} from "../backend/game";
 import {StorageService} from "../backend/storage-service";
 import {DateUtilService} from "../backend/date-util-service";
 import {AnswerGeneratorService} from "../backend/answer-generator-service";
+import {NgbToast} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-wordle',
@@ -15,7 +16,8 @@ import {AnswerGeneratorService} from "../backend/answer-generator-service";
     RouterLink,
     KeyboardComponent,
     WordComponent,
-    NgForOf
+    NgForOf,
+    NgbToast
   ],
   templateUrl: './wordle.component.html',
   styleUrl: './wordle.component.css'
@@ -23,6 +25,7 @@ import {AnswerGeneratorService} from "../backend/answer-generator-service";
 export class WordleComponent implements OnInit {
   protected date: String;
   protected game: Game;
+  protected toasts: String[]
 
   constructor(private route: ActivatedRoute,
               private storageService: StorageService,
@@ -31,6 +34,8 @@ export class WordleComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.toasts = []
+
     const dateParam = this.route.snapshot.queryParams['date'];
     if (dateParam) {
       this.date = dateParam;
@@ -49,6 +54,7 @@ export class WordleComponent implements OnInit {
     }
 
     this.game = new Game(wordleSingleDay, this.storageService);
+    this.game.errorMessage.subscribe((message) => this.toasts.push(message))
   }
 
   pressKey(value: String) {
