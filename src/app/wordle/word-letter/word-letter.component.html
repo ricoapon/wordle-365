@@ -1,3 +1,5 @@
-<div [class]="determineCssClass()">
-  {{ gameLetter.content }}
+<div class="letter-container" [class]="determineCssClass()">
+  <div [@textChange]="'empty' + gameLetter.content">
+    {{ gameLetter.content }}
+  </div>
 </div>
