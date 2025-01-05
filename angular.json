@@ -11,14 +11,15 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
-            "outputPath": {
+            "customWebpackConfig": {
               "base": "dist/wordle-365",
               "browser": ""
             },
+            "main": "src/main.ts",
+            "outputPath": "dist/wordle-365",
             "index": "src/index.html",
-            "browser": "src/main.ts",
             "polyfills": [
               "zone.js",
               "@angular/localize/init"
