@@ -12,7 +12,9 @@ import {VERSION} from "../version";
 export class AppComponent implements OnInit {
   title = 'wordle-365';
 
-  ngOnInit(): void {
+  async ngOnInit() {
     console.log(VERSION)
+    const { default: dictionaryNL } = await import('dictionary-nl');
+    console.log(dictionaryNL)
   }
 }
