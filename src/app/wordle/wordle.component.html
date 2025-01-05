@@ -7,5 +7,5 @@
 <!-- All toasts are positioned at the top right corner of the screen. -->
 <div class="position-fixed top-0 end-0 p-3 float-end d-flex flex-column align-items-end">
   <ngb-toast *ngFor="let message of toasts"
-    [autohide]="false" [delay]=3000 class="bg-danger" style="width: fit-content">{{ message }}</ngb-toast>
+    [autohide]="true" [delay]=3000 class="bg-danger" style="width: fit-content">{{ message }}</ngb-toast>
 </div>
