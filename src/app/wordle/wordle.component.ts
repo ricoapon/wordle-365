@@ -3,11 +3,13 @@ import {ActivatedRoute, RouterLink} from "@angular/router";
 import {KeyboardComponent} from "./keyboard/keyboard.component";
 import {WordComponent} from "./word/word.component";
 import {NgForOf} from "@angular/common";
-import {Game} from "../backend/game";
+import {Game, GameLetter} from "../backend/game";
 import {StorageService} from "../backend/storage-service";
 import {DateUtilService} from "../backend/date-util-service";
 import {AnswerGeneratorService} from "../backend/answer-generator-service";
 import {NgbToast} from "@ng-bootstrap/ng-bootstrap";
+import {TranslationService} from "../backend/translation-service";
+import {LetterState} from "./letter-state";
 
 @Component({
   selector: 'app-wordle',
@@ -30,7 +32,8 @@ export class WordleComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private storageService: StorageService,
               private dateUtilService: DateUtilService,
-              private answerGeneratorService: AnswerGeneratorService) {
+              private answerGeneratorService: AnswerGeneratorService,
+              private translationService: TranslationService) {
   }
 
   ngOnInit() {
@@ -68,5 +71,16 @@ export class WordleComponent implements OnInit {
     }
 
     this.game.addLetter(value);
+  }
+
+  translate(word: GameLetter[]) {
+    // Only allow translation of filled in words.
+    if (word[0].state === LetterState.UNKNOWN) {
+      return
+    }
+
+    const wordAsString = word.map(l => l.content).join('')
+    this.translationService.translate(wordAsString)
+      .then(translatedWord => this.toasts.push('NL "' + wordAsString + '" EN "' + translatedWord + '"'));
   }
 }
