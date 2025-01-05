@@ -1,4 +1,9 @@
 button {
+  /* Safari needs to have this set, otherwise it will still be blue. */
+  color: black;
+  /* Prevent Iphone to zoom in when clicking the button multiple times. */
+  touch-action: manipulation;
+
   font-size: 1rem;
   font-weight: bold;
   padding: 0.6rem 5px;
