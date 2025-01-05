@@ -1,6 +1,7 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {KeyboardKeyComponent} from "../keyboard-key/keyboard-key.component";
 import {NgForOf} from "@angular/common";
+import {Game} from "../../backend/game";
 
 @Component({
   selector: 'app-keyboard',
@@ -13,5 +14,10 @@ import {NgForOf} from "@angular/common";
   styleUrl: './keyboard.component.css'
 })
 export class KeyboardComponent {
+  @Input() game: Game;
   @Output() pressedKey: EventEmitter<String> = new EventEmitter();
+
+  getLetterStateFor(c: String) {
+    return this.game.determineStateOfLetterInAlphabet(c);
+  }
 }
