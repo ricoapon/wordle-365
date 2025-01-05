@@ -59,6 +59,7 @@ export class WordleComponent implements OnInit {
 
     this.game = new Game(wordleSingleDay, this.storageService);
     this.game.errorMessage.subscribe((message) => this.toasts.push(message))
+    console.log(this.game.answer)
   }
 
   pressKey(value: String) {
