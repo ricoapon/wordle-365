@@ -14,6 +14,10 @@ export class StorageService {
   private readonly KEY_DATA = "WORDLE";
   private readonly data: WordleSingleDay[];
 
+  // We store randomized answers as an array under this key.
+  private readonly KEY_RANDOMIZED_ANSWERS = "ANSWERS";
+  private randomizedAnswers: String[];
+
   constructor() {
     localStorage.setItem(this.KEY_VERSION, this.VERSION);
 
@@ -22,6 +26,13 @@ export class StorageService {
       this.data = [];
     } else {
       this.data = JSON.parse(value);
+    }
+
+    const answersValue = localStorage.getItem(this.KEY_RANDOMIZED_ANSWERS);
+    if (answersValue == null) {
+      this.randomizedAnswers = [];
+    } else {
+      this.randomizedAnswers = JSON.parse(answersValue);
     }
   }
 
@@ -46,7 +57,7 @@ export class StorageService {
       this.data[index] = wordleSingleDay;
     }
 
-    this.save();
+    this.saveData();
   }
 
   public getAll(): WordleSingleDay[] {
@@ -54,7 +65,20 @@ export class StorageService {
     return this.data.slice();
   }
 
-  private save() {
+  private saveData() {
     localStorage.setItem(this.KEY_DATA, JSON.stringify(this.data));
+  }
+
+  private saveRandomizedAnswers() {
+    localStorage.setItem(this.KEY_RANDOMIZED_ANSWERS, JSON.stringify(this.randomizedAnswers))
+  }
+
+  public getRandomizedAnswers(): String[] {
+    return this.randomizedAnswers.slice()
+  }
+
+  public setRandomizedAnswers(randomizedAnswers: String[]) {
+    this.randomizedAnswers = randomizedAnswers
+    this.saveRandomizedAnswers()
   }
 }

@@ -6,6 +6,7 @@ import {NgForOf} from "@angular/common";
 import {Game} from "../backend/game";
 import {StorageService} from "../backend/storage-service";
 import {DateUtilService} from "../backend/date-util-service";
+import {AnswerGeneratorService} from "../backend/answer-generator-service";
 
 @Component({
   selector: 'app-wordle',
@@ -23,7 +24,10 @@ export class WordleComponent implements OnInit {
   protected date: String;
   protected game: Game;
 
-  constructor(private route: ActivatedRoute, private storageService: StorageService, private dateUtilService: DateUtilService) {
+  constructor(private route: ActivatedRoute,
+              private storageService: StorageService,
+              private dateUtilService: DateUtilService,
+              private answerGeneratorService: AnswerGeneratorService) {
   }
 
   ngOnInit() {
@@ -36,10 +40,9 @@ export class WordleComponent implements OnInit {
 
     let wordleSingleDay = this.storageService.getForDate(this.date);
     if (wordleSingleDay == undefined) {
-      // TODO: generate dynamically!
       wordleSingleDay = {
         date: this.date,
-        answer: "hallo",
+        answer: this.answerGeneratorService.next(),
         guessedWords: [],
       }
       this.storageService.addOrOverwrite(wordleSingleDay);
