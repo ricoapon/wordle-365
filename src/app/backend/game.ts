@@ -13,10 +13,11 @@ export type GameLetter = {
 }
 
 export class Game {
-  private readonly answer: String;
+  public readonly answer: String;
   public readonly guessedWords: GameLetter[][];
   private currentGuessingWord = 0;
   private currentGuessingLetter = 0;
+  private isFinished = false
   // Using sets because we are fancy. Lists would have sufficed, but I find duplicates ugly and I don't want to
   // write code to avoid it.
   private incorrectLetters: Set<String> = new Set()
@@ -145,10 +146,14 @@ export class Game {
     }
 
     if (isCorrect) {
-      // Delay the page switch to have the letters light green first.
-      setTimeout(() => {
-        alert('You got it!')
-      }, 2000)
+      if (commitToStorage) {
+        // Delay the page switch to have the letters light green first.
+        setTimeout(() => {
+          this.isFinished = true
+        }, 2000)
+      } else {
+        this.isFinished = true
+      }
       return
     }
 
@@ -156,7 +161,7 @@ export class Game {
     this.currentGuessingLetter = 0
 
     if (this.currentGuessingWord === MAX_NR_OF_GUESSES) {
-      this.errorMessage.emit('Helaas, je hebt het woord niet geraden! Probeer het morgen nog een keer.')
+      this.isFinished = true
       return
     }
   }
@@ -172,7 +177,12 @@ export class Game {
     return LetterState.UNKNOWN
   }
 
-  isStillPlaying() {
+  isStillPlaying(): boolean {
+     return !this.isFinished;
+  }
+
+  // Only call this method if the game is finished.
+  wasAnswerGuessed(): boolean {
     return this.currentGuessingWord < MAX_NR_OF_GUESSES
   }
 }

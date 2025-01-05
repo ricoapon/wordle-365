@@ -1,7 +1,19 @@
 <div class="centered-container">
   <app-word *ngFor="let word of game.guessedWords" [word]="word" (click)="translate(word)"></app-word>
 
-  <app-keyboard class="pt-3" (pressedKey)="pressKey($event)" [game]="game"></app-keyboard>
+  <div *ngIf="game.isStillPlaying()" class="pt-3">
+  <app-keyboard (pressedKey)="pressKey($event)" [game]="game"></app-keyboard>
+  </div>
+
+  <div *ngIf="!game.isStillPlaying()">
+    <div *ngIf="game.wasAnswerGuessed()" class="pt-3">
+      <h1>Goed gedaan!</h1>
+    </div>
+    <div *ngIf="!game.wasAnswerGuessed()">
+      <hr>
+      <app-word [word]="createGameLettersFromAnswer()" (click)="translate(createGameLettersFromAnswer())"></app-word>
+    </div>
+  </div>
 </div>
 
 <!-- All toasts are positioned at the top right corner of the screen. -->

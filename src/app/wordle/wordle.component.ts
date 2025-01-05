@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {KeyboardComponent} from "./keyboard/keyboard.component";
 import {WordComponent} from "./word/word.component";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {Game, GameLetter} from "../backend/game";
 import {StorageService} from "../backend/storage-service";
 import {DateUtilService} from "../backend/date-util-service";
@@ -19,7 +19,8 @@ import {LetterState} from "./letter-state";
     KeyboardComponent,
     WordComponent,
     NgForOf,
-    NgbToast
+    NgbToast,
+    NgIf,
   ],
   templateUrl: './wordle.component.html',
   styleUrl: './wordle.component.css'
@@ -82,5 +83,9 @@ export class WordleComponent implements OnInit {
     const wordAsString = word.map(l => l.content).join('')
     this.translationService.translate(wordAsString)
       .then(translatedWord => this.toasts.push('NL "' + wordAsString + '" EN "' + translatedWord + '"'));
+  }
+
+  createGameLettersFromAnswer(): GameLetter[] {
+    return this.game.answer.split('').map(s => ({content: s, state: LetterState.CORRECT}))
   }
 }
