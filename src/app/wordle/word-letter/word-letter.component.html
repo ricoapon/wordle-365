@@ -1,7 +1,7 @@
 <div class="letter-container"
      [class]="gameLetter.content === '' ? '' : 'filled'"
      [@.disabled]="animationDisabled"
-     [@stateChange]="gameLetter.state">
+     [@stateChange]="{ value: gameLetter.state, params: { delay: delayIndex * 300 } }">
   <div [@textChange]="'empty' + gameLetter.content">
     {{ gameLetter.content }}
   </div>

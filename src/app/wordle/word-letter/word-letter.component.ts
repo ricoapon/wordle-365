@@ -5,7 +5,7 @@ import {animate, keyframes, state, style, transition, trigger} from "@angular/an
 
 function createTransitionWithColor(state: LetterState, color: string): any {
   return transition('* => ' + state, [
-    animate('500ms ease-in', keyframes([
+    animate('300ms {{delay}}ms ease-in', keyframes([
       style({transform: 'rotateY(0)', offset: 0}),
       style({transform: 'rotateY(90deg)', offset: 0.5}),
       style({transform: 'rotateY(0)', offset: 1, backgroundColor: color, borderColor: color}),
@@ -45,6 +45,7 @@ function createTransitionWithColor(state: LetterState, color: string): any {
 })
 export class WordLetterComponent implements AfterViewInit {
   @Input() gameLetter: GameLetter;
+  @Input() delayIndex: number;
 
   // Make sure that animations only start after the page is loaded.
   animationDisabled: boolean = true;

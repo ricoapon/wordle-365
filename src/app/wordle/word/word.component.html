@@ -1,3 +1,4 @@
 <div class="letter-row">
-  <app-word-letter *ngFor="let gameLetter of word" [gameLetter]="gameLetter"></app-word-letter>
+  <app-word-letter *ngFor="let gameLetter of word; index as i"
+                   [gameLetter]="gameLetter" [delayIndex]="i"></app-word-letter>
 </div>
